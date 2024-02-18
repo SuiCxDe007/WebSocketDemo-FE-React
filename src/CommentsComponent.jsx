@@ -27,7 +27,10 @@ const CommentsComponent = ({ assignmentId, submissionId }) => {
             console.log("------------------------------")
             stomp.subscribe(`/topic/comments/${params.aid}`, (comment) => {
                 const newComment = JSON.parse(comment.body);
-                setComments(prevComments => [...prevComments, newComment.comment]);
+                console.log("comment came"+ newComment)
+                console.log( newComment)
+                console.log("comment came")
+                setComments(prevComments => [...prevComments, newComment]);
             });
         });
 
@@ -38,10 +41,6 @@ const CommentsComponent = ({ assignmentId, submissionId }) => {
         };
     }, [params]);
 
-    useEffect(() => {
-        console.log(comments)
-    }, [comments]);
-
     const handleSubmitComment = (event) => {
         event.preventDefault();
         const newComment = {
@@ -49,7 +48,7 @@ const CommentsComponent = ({ assignmentId, submissionId }) => {
             comment: `${commentText}`,
             assignmentId: params.aid,
             studentId: "sid",
-            submissionId: "subid",
+            submissionId: params.sid,
             courseId: "vid"
 
         };
@@ -63,15 +62,16 @@ const CommentsComponent = ({ assignmentId, submissionId }) => {
 
 
     return (
+        <>
         <div>
             <h2>Comments</h2>
-            <ul>
-                {comments?.map((comment, index) => (
-                    <li key={index}>
-                        <strong>{comment}</strong>
-                    </li>
-                ))}
-            </ul>
+            {/*<ul>*/}
+            {/*    {comments?.map((comment, index) => (*/}
+            {/*        <li key={index}>*/}
+            {/*            <strong>{comment}</strong>*/}
+            {/*        </li>*/}
+            {/*    ))}*/}
+            {/*</ul>*/}
             <form onSubmit={handleSubmitComment}>
                 <input
                     type="text"
@@ -82,6 +82,50 @@ const CommentsComponent = ({ assignmentId, submissionId }) => {
                 <button type="submit">Submit</button>
             </form>
         </div>
+
+            <div>
+                <h1>Submission Id 10</h1>
+                <br/>
+                {comments?.filter(a=>a.submissionId==="10").map((comment, index) => (
+                <li key={index}>
+                    <strong>{comment.comment}</strong>
+                </li>
+                ))}
+                <hr/>
+            </div>
+            <div>
+                <h1>Submission Id 11</h1>
+                <br/>
+                {comments?.filter(a=>a.submissionId==="11").map((comment, index) => (
+                <li key={index}>
+                    <strong>{comment.comment}</strong>
+                </li>
+                ))}
+                <hr/>
+            </div>
+            <div>
+                <h1>Submission Id 12</h1>
+                <br/>
+                {comments?.filter(a=>a.submissionId==="12").map((comment, index) => (
+                <li key={index}>
+                    <strong>{comment.comment}</strong>
+                </li>
+                ))}
+                <hr/>
+            </div>
+            <div>
+                <h1>Submission Id 13</h1>
+                <br/>
+                {comments?.filter(a=>a.submissionId==="13").map((comment, index) => (
+                <li key={index}>
+                    <strong>{comment.comment}</strong>
+                </li>
+                ))}
+                <hr/>
+            </div>
+
+
+        </>
     );
 };
 export default CommentsComponent;
